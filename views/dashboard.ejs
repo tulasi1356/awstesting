@@ -114,10 +114,10 @@ const config1 ={
 <body class="hold-transition sidebar-mini" onload="funct('<%=JSON.stringify(employeeDetails)%>', '<%=JSON.stringify(graphDetails)%>','<%=JSON.stringify(taskStatusDetails)%>')"  style = "overflow-y: hidden;overflow-x: hidden;">
   <div class="wrapper" style="margin-top: 0px;">
     <%if(sessionDetails.type == 'employee'){%>
-      <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/employeenavbar.ejs') %>
+      <%- include('./partials/employeenavbar.ejs') %>
     
       <%} else {%>
-        <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+        <%- include('./partials/afterloginnavbar.ejs') %>
     
       <%}%>
     <div class="content-wrapper" >

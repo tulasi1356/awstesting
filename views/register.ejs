@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | General Form Elements</title>
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+ 
+  <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+  <!-- <script src="/javascripts/register.js"></script> -->
+
+</head>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/navbar.ejs') %>
+
+
+ 
+  
+
+  <div class="content-wrapper" style="margin-left: 0px !important;">
+    
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <!-- <h1>Re Form</h1> -->
+          </div>
+          <div class="col-sm-6">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+   
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Registration Form</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form  action="/registervalidate" method="POST">
+                <div class="card-body">
+
+                    <!-- <div class="form-group" style="text-align: center;">
+                        <img id="image" src='/images/project-tracking.png' width="300px" height="300px" ><br>
+                        <input type="hidden" name="profileimage" id="imageUrl"> 
+                        <input  type="file" id="photo">
+                        
+                        <button type="button" onclick="uploadImage()">Upload Image</button>
+                    </div> -->
+                    <input type="hidden" value="/images/logo.png" name="profileimage" id="imageUrl"> 
+                    <div class="form-group">
+                        <label for="exampleInputno">Email<span style="color: red;">&nbsp;*</span></label>
+                        <input     type="text" name="email" class="form-control" id="email" placeholder="Enter email" >
+                        <%if(msg=="mailerror" || msg=="all") {%>
+                          <p style="color: red;">Please enter mail id</p>
+                        <%}%>
+                      </div>
+                  <div class="form-group">
+                      <label for="exampleInputno">Name<span style="color: red;">&nbsp;*</span></label>
+                      <input  type="text" name="name" class="form-control" id="idnum" placeholder="Enter name" >
+                      <%if(msg=="nameerror"  || msg=="all") {%>
+                        <p style="color: red;">Please enter name</p>
+                      <%}%>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputname">Designation<span style="color: red;">&nbsp;*</span></label>
+                        <input  type="text" name="role" class="form-control" id="inputname" placeholder="Enter Role" >
+                        <%if(msg=="roleerror"  || msg=="all") {%>
+                          <p style="color: red;">Please enter role</p>
+                        <%}%>
+                      </div>
+                  <div class="form-group">
+                    <label for="exampleInputname">password<span style="color: red;">&nbsp;*</span></label>
+                    <input  type="password" name="password" class="form-control" id="inputname" placeholder="Enter password" >
+                    <%if(msg=="passworderror"  || msg=="all") {%>
+                      <p style="color: red;">Please enter password</p>
+                    <%}%>
+                  </div>
+                  
+                  <div class="form-group">
+                    <!-- <label for="exampleInputname">Category<span style="color: red;">&nbsp;*</span></label>
+                    <div style="display: flex;align-items: center;">
+                      <div style="display: flex;align-items: center;"><input type="radio" name="type" value="manager"><label style="margin-left:10px;margin-right: 20px; ">Manager</label></div>
+                      <div style="display: flex;align-items: center;"><input type="radio" name="type" value="employee"><label style="margin-left:10px ">Employee</label></div>
+                    </div> -->
+                    <input type="hidden" value="employee" name="type">
+                  </div>
+            
+                
+                </div>
+                
+                <div class="card-footer" style="text-align: center;">
+                  <%if(msg=="alreadymailerr"){%>
+                    <p style="color: red;">Already User registered please <a href="/login">Login</a></p>
+                  <%}%>
+                  <button type="submit"  class="btn btn-primary"><b>Submit</b></button>
+                </div>
+              </form>
+              
+            </div>
+        
+
+          </div>
+          <div class="col-md-3"></div>
+          
+        
+        </div>
+    
+      </div>
+    </section>
+   
+  </div>
+  
+
+ 
+</div>
+
+
+
+<script>
+$(function () {
+  bsCustomFileInput.init();
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

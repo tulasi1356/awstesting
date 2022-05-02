@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+  <link rel="stylesheet" href="/stylesheets/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/buttons.bootstrap4.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+  <link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+  <script src="/javascripts/manager.js" defer></script>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+
+  
+ 
+
+
+  <div class="content-wrapper" >
+
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Task Details </h3>
+
+              </div>
+             
+              <div class="card-body">
+                    <div id="projectsection"> 
+                            <table >
+                                <table id="example2" class="table table-bordered table-hover"  id="DyanmicTable" name="DyanmicTable"> 
+                                    <thead>
+                                      <tr>
+                                        <th style="width: 10px">Sno</th>
+                                        <th>Employee</th>
+                                        <th>Project</th>
+                                        <th>Role</th>
+                                        <th>Task</th>
+                                        <th>Contact</th>
+                                        <th>Status</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody id="tbodycontent">
+                                    
+                                        <% for(let i=0; i<taskArray.length; i++){ %>
+                                            
+                                            <tr>
+                                                <td><%=i+1%></td>
+                                                <td><img class="rounded-circle" src="<%=taskArray[i].employeedetails.profileimage%>" width="50px" height="50px">&nbsp;&nbsp;<%=taskArray[i].employeedetails.name%></td>
+                                                <td><%=taskArray[i].projectname%></td>
+                                                <td><%=taskArray[i].employeedetails.role%></td>
+                                                <td><%=taskArray[i].taskDetails.taskname%></td>
+                                                <td><%=taskArray[i].employeedetails.email%></td>
+                                                <%if(taskArray[i].taskDetails.status=='incomplete'){%>
+                                                <td style="color: red;"><%=taskArray[i].taskDetails.status%></td>
+
+                                                <%}else if(taskArray[i].taskDetails.status=='completed'){%>
+                                                <td style="color: green;"><%=taskArray[i].taskDetails.status%></td>
+
+                                                <%}else{%>
+                                                <td><%=taskArray[i].taskDetails.status%></td>
+                                                <%}%>
+
+                                            </tr>
+                                        <%}%>
+                                       
+                                    </tbody>
+                                  </table>
+                            </table>
+                          
+                    </div>
+
+
+
+
+
+        
+              </div>
+              <div class="card-footer">
+                <!-- <button onclick="addemployee()">Add Employee</button> -->
+              </div>
+              
+            </div>
+          
+
+           
+          
+          </div>
+     
+        </div>
+       
+      </div>
+    
+    </section>
+  
+  </div>
+
+
+
+
+</div>
+
+
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+</body>
+</html>

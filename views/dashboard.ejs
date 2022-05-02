@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+  <link rel="stylesheet" href="/stylesheets/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/buttons.bootstrap4.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+  <link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.3/Chart.min.js"></script>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+<script>
+function funct(employeeDetails,graphDetails,statusdetails){
+  employeeDetails = JSON.parse(employeeDetails);
+  graphDetails = JSON.parse(graphDetails);
+ 
+  // console.log(employeeDetails,graphDetails,'lllllllllllllllll');
+  var label = [];
+  var dataset = [];
+
+  for(let i=0;i<employeeDetails.length;i++) {
+    var count=0;
+      for(j=0;j<graphDetails.length;j++){
+        if(employeeDetails[i]._id==graphDetails[j]._id){
+          label.push(employeeDetails[i].name);
+          dataset.push(graphDetails[j].taskcount);
+          
+          break;
+        } else{
+          count++;
+        }
+        if(count==graphDetails.length){
+        label.push(employeeDetails[i].name);
+        dataset.push(0);
+      }
+      }
+     
+      
+  }
+
+ 
+  const data = {
+    labels: label,
+    datasets: [{
+      label: 'Task Analaysis',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      data: dataset,
+    }]
+  };
+
+  const config = {
+    type: 'bar',
+    data: data,
+    options: {}
+  };
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+  statusdetails = JSON.parse(statusdetails);
+  var piedataarray=[]
+  var labels=[]
+  console.log(statusdetails.length,statusdetails,'pppppppppppp')
+  for(let i=0;i<statusdetails.length;i++) {
+    piedataarray.push(statusdetails[i].taskcount);
+    labels.push(statusdetails[i]._id);
+  }
+  const piedata = {
+  labels:labels,
+  datasets: [{
+    label: 'Status',
+    data: piedataarray,
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ],
+    hoverOffset: 4
+  }]
+};
+const config1 ={
+  type: 'doughnut',
+  data: piedata,
+}
+  const pieChart = new Chart(
+  document.getElementById('piechartApplication'),
+  config1
+  )
+
+}
+</script>
+ 
+</head>
+
+
+
+
+
+
+<body class="hold-transition sidebar-mini" onload="funct('<%=JSON.stringify(employeeDetails)%>', '<%=JSON.stringify(graphDetails)%>','<%=JSON.stringify(taskStatusDetails)%>')"  style = "overflow-y: hidden;overflow-x: hidden;">
+  <div class="wrapper" style="margin-top: 0px;">
+    <%if(sessionDetails.type == 'employee'){%>
+      <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/employeenavbar.ejs') %>
+    
+      <%} else {%>
+        <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+    
+      <%}%>
+    <div class="content-wrapper" >
+      <div class="card-section" style="padding-top:20px;margin-left: 100px;overflow-x: hidden;">
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner" style="text-align: center;">
+                <h3><%=projectCount%></h3>
+      
+                <p>Projects Count</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+                <a href="/projectDetails" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+    
+    
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+              <div class="inner" style="text-align: center;">
+                <h3><%=taskCount%></h3>
+      
+                <p>Tasks Count</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-stats-bars"></i>
+              </div>
+              <%if(sessionDetails.type=='employee'){%>
+                <a href="/employee" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+    
+              <%} else{%>
+                <a href="taskdetails/info" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+    
+              <%}%>
+            </div>
+          </div>
+          <!-- ./col -->
+          <%if(sessionDetails.type!='employee'){%>
+            <div class="col-lg-3 col-6">
+              <!-- small box -->
+              <div class="small-box bg-warning">
+                <div class="inner" style="text-align: center;">
+                  <h3><%=employeeDetails.length%></h3>
+        
+                  <p>Employees Count</p>
+                </div>
+                <div class="icon">
+                  <i class="ion ion-person-add"></i>
+                </div>
+                <a href="/manager" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              </div>
+            </div>
+          <%}%>
+          <!-- ./col -->
+          
+          <!-- ./col -->
+        </div>
+      </div>
+      <div class="Grap-details">
+        <div class="head-section" style="text-align: center;margin-top: 20px;margin-bottom: 20px;">
+          <h4>Your Team Task Details And Task Status</h4>
+        </div>
+        <div style="width: 800px;height: 800px;margin-left: 100px;display: flex;" >
+        
+          <canvas id="myChart" ></canvas>
+          <canvas id="piechartApplication"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+
+</body>
+</html>

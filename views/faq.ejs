@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Font Awesome -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+</head>
+<body class="hold-transition sidebar-mini">
+
+    <div class="wrapper">
+    <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/employeenavbar.ejs') %>
+
+       <div class="content-wrapper">
+        <div class="faq-heading" style="padding-top: 30px;padding-bottom: 30px;padding-left: 5px;">
+          <h3>Frequently Asked Questions</h3>
+      </div>
+      <div class="accordion w-100" id="basicAccordion" style="padding-left: 5px;padding-right: 10px;">
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingOne">
+              <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#basicAccordionCollapseOne" aria-expanded="false"
+                aria-controls="collapseOne">
+                  What if i don't have any project
+              </button>
+            </h2>
+            <div id="basicAccordionCollapseOne" class="accordion-collapse collapse"
+              aria-labelledby="headingOne" data-mdb-parent="#basicAccordion" style="">
+              <div class="accordion-body">
+                There will be a Raise a task button by clicling that manager get a notification , once manager know, you don't have any task he will assign a new task to you
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#basicAccordionCollapseTwo" aria-expanded="false"
+                aria-controls="collapseTwo">
+                How can I know task completed
+              </button>
+            </h2>
+            <div id="basicAccordionCollapseTwo" class="accordion-collapse collapse"
+              aria-labelledby="headingTwo" data-mdb-parent="#basicAccordion" style="">
+              <div class="accordion-body">
+               Once you complete the task if you click on project there will be input with incomplete value in it change it to complete then manager will able to see that 
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+                data-mdb-target="#basicAccordionCollapseThree" aria-expanded="false"
+                aria-controls="collapseThree">
+                How can I know our teammates
+              </button>
+            </h2>
+            <div id="basicAccordionCollapseThree" class="accordion-collapse collapse"
+              aria-labelledby="headingThree" data-mdb-parent="#basicAccordion" style="">
+              <div class="accordion-body">
+                                
+              In project details tab, you can see list of projects you are working and the teamamtes working on that project,
+              There you have there mail ids so that you can contact through mail
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+    </div>
+</body>
+</html>

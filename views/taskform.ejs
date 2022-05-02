@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+  <link rel="stylesheet" href="/stylesheets/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/buttons.bootstrap4.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+  <link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+
+
+  <script>
+
+  function functest(){
+    console.log('lllllllllllllllllll')
+    var startdate = document.getElementById("startdate");
+    var date = new Date();
+    mnth = ("0" + (date.getMonth()+1)).slice(-2),
+        day  = ("0" + date.getDate()).slice(-2);
+        hours  = ("0" + date.getHours()).slice(-2);
+        minutes = ("0" + date.getMinutes()).slice(-2);
+    startdate.value=[ day, mnth, date.getFullYear() ].join("-");
+    console.log(startdate)
+   }
+var firebaseConfig = {
+  apiKey: "AIzaSyAy_29KxWJvK432sHaWlUB7M46zpScOh-o",
+  authDomain: "taskconcept-9d120.firebaseapp.com",
+  projectId: "taskconcept-9d120",
+  storageBucket: "taskconcept-9d120.appspot.com",
+  messagingSenderId: "966163604903",
+  appId: "1:966163604903:web:512c3c4ca2721c49dac282",
+  measurementId: "G-14GF1FDJ50"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+function uploadImage() {
+  document.getElementById("submitbutton").disabled=true;
+  document.getElementById('image').style.display='block';
+  document.getElementById('image').src = '/images/loader.gif';
+  const ref = firebase.storage().ref();
+  const file = document.querySelector("#photo").files[0];
+  const name = +new Date() + "-" + file.name;
+  const metadata = {
+	contentType: file.type
+  };
+  const task = ref.child(name).put(file, metadata);
+  task
+	.then(snapshot => snapshot.ref.getDownloadURL())
+	.then(url => {
+	  console.log(url);
+	  document.getElementById('imageUrl').value=url;
+	  document.querySelector("#image").src = url;
+  document.getElementById("submitbutton").disabled=false;
+
+	})
+	.catch(console.error);
+}
+
+
+  </script>
+  <!-- <script src="/javascripts/form.js"></script> -->
+</head>
+<body class="hold-transition sidebar-mini" >
+<div class="wrapper">
+  <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+  
+
+  <div class="content-wrapper" style="margin-left: 0px;">
+    
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
+            <!-- <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">General Form</li>
+            </ol> -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+   
+    <section class="content" >
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Task Details</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form  action="/taskdetails" method="POST">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="exampleInputno">Project Name<span style="color: red;">&nbsp;*</span></label>
+                    <input disabled  type="text" name="projectname" class="form-control" id="idnum" value="<%=projectinfo.projectname%>"  required>
+                    
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputno">Employee Name<span style="color: red;">&nbsp;*</span></label>
+                    <input disabled type="text" name="employee name" class="form-control" id="idnum" value="<%=employeeinfo.name%>"  required>
+                    
+                  </div>
+                  <div class="form-group">
+                      <label for="exampleInputno">Task Name<span style="color: red;">&nbsp;*</span></label>
+                      <input  type="text" name="taskname" class="form-control" id="idnum" placeholder="Enter Task Name"  required>
+                      
+                    </div>
+                  <div class="form-group">
+                    <label for="exampleInputname">Enter Task Details<span style="color: red;">&nbsp;*</span></label>
+                    <textarea  type="text" name="taskdetails"   class="form-control" id="inputname" required></textarea>
+                    <!-- <small>Error message</small> -->
+                  </div>
+                  <div class="form-group">
+                      <input type="hidden" value="<%=projectemployeeid.projectid%>" name="projectid">
+                      <input type="hidden" value="<%=projectemployeeid.employeeid%>" name="employeeid">
+                      <input type="hidden" value="incomplete" name="status">
+                      <input type="hidden" name="startdate" id="startdate">
+                  </div>
+                  
+                 <div class="form-group">
+									<img  id="image" alt="import err image" class="p-1 bg-primary" width="200" style="display: none;"><br>
+
+                  <div style="display: flex;">
+                    <input type="hidden" name="profileimage" id="imageUrl"> 
+									<input    type="file" id="photo"><br>
+									
+									<button type="button" onclick="uploadImage()">Upload Image</button>
+                  </div>
+                    
+                
+                 </div>
+                </div>
+                
+                <div class="card-footer" style="text-align: center;">
+                  <button type="submit" onclick="functest()" id="submitbutton"  class="btn btn-primary"><b>Submit</b></button>
+                </div>
+              </form>
+              
+            </div>
+        
+
+          </div>
+          <div class="col-md-3"></div>
+          
+        
+        </div>
+    
+      </div>
+    </section>
+   
+  </div>
+  
+  <footer class="main-footer">
+    <div class="float-right d-none d-sm-block">
+      <b>Version</b> 3.2.0
+    </div>
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  </footer>
+
+  
+  <aside class="control-sidebar control-sidebar-dark">
+   
+  </aside>
+ 
+</div>
+
+
+
+<script>
+$(function () {
+  bsCustomFileInput.init();
+});
+</script>
+</body>
+</html>

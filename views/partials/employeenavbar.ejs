@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+       if(window.location.href!='http://localhost:3000/dashboard'){
+        window.onload = function() {
+            var home = document.getElementById("home");
+            var task = document.getElementById('task');
+            var taskhistory = document.getElementById("taskhistory");
+            var faq = document.getElementById("faq")
+            var loc = window.location.href;
+            var project = document.getElementById("projectdetails");
+            if(loc=='http://localhost:3000/') {
+                home.style.color='white';
+            } else if(loc=='http://localhost:3000/taskhistory'){
+              taskhistory.style.color='white';
+            } else if(loc=='http://localhost:3000/faq'){
+              faq.style.color='white';
+            }else if(loc=='http://localhost:3000/projectDetails'){
+              project.style.color='white';
+            }
+            else {
+                task.style.color='white';
+            }
+            
+        }
+       }
+       else{
+         document.getElementById('dasboard').style.color='white';
+       } 
+       function navbar(){
+          var formelement = document.querySelector("#formelement");
+          formelement.action = window.location.href+'/notification';
+          setTimeout( function(){document.getElementById("formelement").submit()},3000)
+
+        }
+
+    </script>
+
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+ 
+  <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+
+<style>
+  i.fas.fa-bell {
+    font-size: 22px;
+}
+.card-header {
+    padding: 0.75rem 1.5rem;
+    margin-bottom: 0;
+    border-bottom: 0px;
+}
+</style>
+
+</head>
+
+<body>
+    <!-- <div class="row"> -->
+      
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+            <!-- Container wrapper -->
+            <div class="container" style="margin-left: 0px;">
+              <!-- Navbar brand -->
+              <a class="navbar-brand me-2" href="#">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
+                  height="16"
+                  alt="MDB Logo"
+                  loading="lazy"
+                  style="margin-top: -1px;"
+                />
+              </a>
+          
+              <!-- Toggle button -->
+             
+          
+              <!-- Collapsible wrapper -->
+              <div class="collapse navbar-collapse" id="navbarButtonsExample">
+                <!-- Left links -->
+              
+                 
+                  
+                <!-- Left links -->
+          
+                
+              </div>
+              
+              <!-- Collapsible wrapper -->
+            </div>
+           
+            <div class="dropdown">
+              <a
+                class="dropdown-toggle d-flex align-items-center hidden-arrow"
+                href="#"
+                id="navbarDropdownMenuAvatar"
+                role="button"
+                data-mdb-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <img
+                  src="<%=sessionDetails.image%>"
+                  class="rounded-circle"
+                  width="50"
+                  height="50"
+                  alt="Black and White Portrait of a Man"
+                  loading="lazy"
+                />&nbsp;&nbsp;&nbsp; <%=sessionDetails.name%>
+              </a>
+              <ul
+                class="dropdown-menu dropdown-menu-end"
+                aria-labelledby="navbarDropdownMenuAvatar"
+              >
+              <li>
+                <a class="dropdown-item" href="/profile">My Account</a>
+              </li>
+                <li>
+                  <a class="dropdown-item" href="/logout">Logout</a>
+                </li>
+
+              
+              </ul>
+            </div>
+           
+            <!-- Container wrapper -->
+          </nav>
+          <aside class="main-sidebar sidebar-dark-primary elevation-4">
+
+            
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="display: flex;align-items: center;">
+              <div class="image">
+                <img
+                  src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp"
+                  height="16"
+                  alt="MDB Logo"
+                  loading="lazy"
+                  
+                />
+              </div>
+             
+              <div class="info">
+                <a href="#" style="color: white;" class="d-block">Darwinbox</a>
+              </div>
+            </div> 
+          
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="display: flex;align-items: center;">
+              <div class="info">
+                  <a style="color: grey;" class="nav-link" id="dashboardcontent" href="/dashboard">Dashboard</a>
+              </div>
+              </div>
+              
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="display: flex;align-items: center;">
+              <div class="info">
+                  <a  style="color: grey;" class="nav-link" id="projectdetails" href="/projectDetails">Project Details</a>
+              </div>
+              </div>
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="display: flex;align-items: center;">
+                <div class="info">
+                    <a style="color: grey;" class="nav-link" id="task" href="/employee">Tasks</a>
+                </div>
+                </div>
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="display: flex;align-items: center;">
+              <div class="info">
+                  <a  style="color: grey;" class="nav-link" id="taskhistory"   href="/taskhistory">Task History</a>
+              </div>
+              
+
+              </div>
+              <div class="user-panel mt-3 pb-3 mb-3 d-flex" style="display: flex;align-items: center;">
+                <div class="info">
+                    <a style="color: grey;" class="nav-link"  id="faq"  href="/faq">FAQ</a>
+                </div>
+                </div>
+          </aside>
+    <!-- </div> -->
+</body>
+</html>

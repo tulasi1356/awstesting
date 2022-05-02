@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AdminLTE 3 | General Form Elements</title>
+
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+ 
+  <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <!-- <script src="/javascripts/form.js"></script> -->
+</head>
+<script>
+  // function validatename(namefield) {
+  //   var reg = /^[a-zA-Z][a-zA-Z\\s]+$/;
+  //   if(reg.test(namefield)==false){
+  //     alert('Invalid user');
+  //     return false;
+  //   }
+  //   return true;
+  // }
+  // function validatePassword(password) {
+  //   console.log('password',password);
+  //   var reg = /^[0-9]*$/;
+  //   if(reg.test(password)==0){
+  //     document.getElementById('textmessageforpassword').innerHTML="please enter valid password";
+  //     return false;
+  //   }
+  //   document.getElementById('textmessageforpassword').innerHTML="";
+
+  //   return true;
+  // }
+  function validateEmail(emailField){
+        var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+        if (reg.test(emailField.value) == false) 
+        {
+            document.getElementById('textmessage').innerHTML="please enter valid mail id";
+            return false;
+        }
+        document.getElementById('textmessage').innerHTML="";
+
+        return true;
+
+}
+function validatePassword(){
+console.log('jjjjjjjjjjjjjj',document.getElementById("password").value);
+  if(document.getElementById("password").value==''){
+    document.getElementById('textmessageforpassword').innerHTML="please enter password";
+    return false;
+  }
+  document.getElementById('textmessageforpassword').innerHTML="";
+  return true;
+}
+</script>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+  
+  <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/navbar.ejs') %>
+  
+
+  
+
+  <div class="content-wrapper" style="margin-left: 0px !important;">
+    
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <!-- <h1>General Form</h1> -->
+          </div>
+          <div class="col-sm-6">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+   
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3"></div>
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Login Form</h3>
+              </div>
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form  id="loginform">
+                <div class="card-body">
+                  <div class="form-group">
+                      <label for="exampleInputno">Email<span style="color: red;">&nbsp;*</span></label>
+                      <input onchange="validateEmail(this)"  type="text" name="email" class="form-control" id="idnum" placeholder="Enter email"  >
+                      <p id="textmessage" style="color: red;"></p>
+                    </div>
+                  <div class="form-group">
+                    <label for="exampleInputname">password<span style="color: red;">&nbsp;*</span></label>
+                    <input   type="password" name="password" class="form-control" id="password" placeholder="Enter password" >
+                      <p id="textmessageforpassword" style="color: red;"></p>
+                   
+                  </div>
+            
+                
+                </div>
+                
+                <div class="card-footer" style="text-align: center;">
+                 
+                  
+                    <p id="registermessage" style="text-align: center;color: red;">Account doesn't exit please <a href="/register">Register</a></p>
+                    <p id="verficationmessage" style="text-align: center;color: red;"></p>
+                  <button id="submitbutton" type="submit"  class="btn btn-primary"><b>Submit</b></button>
+                </div>
+              </form>
+              
+            </div>
+        
+
+          </div>
+          <div class="col-md-3"></div>
+          
+        
+        </div>
+    
+      </div>
+    </section>
+   
+  </div>
+  
+  
+
+  
+ 
+ 
+</div>
+
+
+
+<script>
+$("#registermessage").hide();
+$(document).ready(function(){
+$('#loginform').on('submit', function(event){
+event.preventDefault();
+$.ajax({
+url:"/login/validate",
+method:"POST",
+data:$(this).serialize(),
+dataType:"json",
+beforeSend:function(){
+
+$('#submitbutton').val('Validate...');
+// $('#submitbutton').attr('disabled', 'disabled');
+},success:function(data)
+{
+console.log(data);
+if(data.success)
+{
+// alert("successfully login");
+window.location.href = "/dashboard";
+}
+if(data.error){
+  if(data.msg=='Wrong Password'){
+    $('#textmessageforpassword').text('invalid password');
+  } else if(data.msg=='both are not mentioned'){
+    $('#textmessage').text('email is required');
+    $('#textmessageforpassword').text('password is required');
+  } else if(data.msg=='Your account is not verified'){
+    $('#verficationmessage').text(data.msg)
+  }
+  else{
+    $('#registermessage').show()
+  }
+
+}
+}
+})
+})
+})
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

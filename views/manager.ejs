@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <title>AdminLTE 3 | DataTables</title> -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <link rel="stylesheet" href="/stylesheets/all.min.css">
+  <link rel="stylesheet" href="/stylesheets/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/stylesheets/buttons.bootstrap4.min.css">
+ <link rel="stylesheet" href="/stylesheets/adminlte.min.css">
+ <link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+  <script src="/javascripts/manager.js" defer></script>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+
+  
+
+
+
+  <div class="content-wrapper" >
+
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <!-- <h1></h1> -->
+          </div>
+          <div class="col-sm-6">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Add Project </h3>
+
+              </div>
+             
+              <div class="card-body">
+                    <div id="projectsection">
+                        <form action="/manager/newProject" method="post" id="fromelement">
+                            <div class="form-group">
+                                <label for="exampleInputno">Project Name<span style="color: red;">&nbsp;*</span></label>
+                                <input  type="text" name="projectname"  class="form-control"  placeholder="Enter projectname"  required>
+                            </div>
+
+                            <table class="table align-middle mb-0 bg-white">
+                              <thead class="bg-light">
+                                <tr>
+                                  <th>Sno</th>
+                                  <th>Employee name</th>
+                                  <th>Department</th>
+                                  <th>Project Details</th>
+                                  <th>Contact Details</th>
+                                  <th>Options</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <% for(let i=0; i<employeeDetails.length; i++){ %>
+                                <tr>
+                                  <td><%=i+1%></td>
+                                  <td>
+                                    <div class="d-flex align-items-center">
+                                      <img
+                                          src="<%=employeeDetails[i].profileimage%>"
+                                          alt=""
+                                          style="width: 45px; height: 45px"
+                                          class="rounded-circle"
+                                          />
+                                      <div class="ms-3">
+                                        <p class="fw-bold mb-1" style="margin-left: 5px;"><a href="/profile/<%=employeeDetails[i]._id%>"><%=employeeDetails[i].name%></a></p>
+                                        <!-- <p class="text-muted mb-0">john.doe@gmail.com</p> -->
+                                      </div>
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <p class="fw-normal mb-1"><%=employeeDetails[i].role%></p>
+                                    <!-- <p class="text-muted mb-0">IT department</p> -->
+                                  </td>
+                                  <td>
+                                  <%for(let j=0;j<projectDetails.length;j++){%>
+                                    <%for(let k=0;k<projectDetails[j].employee.length;k++){%>
+                                      <%if(projectDetails[j].employee[k]==employeeDetails[i]._id){%>
+                                        <%=projectDetails[j].projectname%><br>
+                                      <%}%>
+                                    <%}%>
+                                  <%}%>
+                                </td>
+                                  <td>
+                                    <%=employeeDetails[i].email%>
+                                  </td>
+                                  
+                                 
+                                    <td id="add<%=i%>"><button class="btn btn-link btn-sm btn-rounded" type="button" onclick="check('<%=employeeDetails[i]._id%>', '<%=i%>')"> Add </button> </td>
+
+        
+                                </tr>
+                                <%}%>
+                              </tbody>
+                            </table>
+                            <div style="width: 100%;text-align: center;margin-top: 10px;">
+                                <p style="color:red"><%=msg%></p>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                          </form>
+                    </div>
+                
+
+
+
+
+
+        
+              </div>
+              <div class="card-footer">
+                <!-- <button onclick="addemployee()">Add Employee</button> -->
+              </div>
+              
+            </div>
+          
+
+           
+          
+          </div>
+     
+        </div>
+       
+      </div>
+    
+    </section>
+  
+  </div>
+
+
+
+</div>
+
+
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+</body>
+</html>

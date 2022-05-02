@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!-- <script src="/javascripts/manager.js" defer></script> -->
+  <!-- Font Awesome -->
+
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+<script>
+  function deleteproject(id) {
+      alert("Are you sure");
+      window.location.href = '/projectDetails/delete/'+id;
+  }
+</script>
+</head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+   <%if(sessionDetails.type=='manager') {%>
+         <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+    <%} else {%>
+      <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/employeenavbar.ejs') %>
+
+    <%}%>
+
+  
+
+
+
+  <div class="content-wrapper"  >
+
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+           
+          </div>
+          <div class="col-sm-6">
+            
+          </div>
+        </div>
+      </div>
+    </section>
+
+    
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">
+            <div class="wrapper">
+              <div class="card" style="margin-left: 20px;margin-right: 20px;">
+                <div class="card-header" >
+                  <%if(projectDetails.length>0) {%>
+                  <h3 class="card-title">Project Details </h3>
+                  <%}%>
+  
+                </div>
+               
+                <div class="card-body">
+                  <%if(projectDetails.length>0) {%>
+                                <div class="accordion w-100" id="basicAccordion">
+                                  <% for(let i=0; i<projectDetails.length; i++){ %>
+                                   
+                                      <div class="accordion-item">
+                                        <h2 class="accordion-header" id="heading<%=i%>">
+                                          <button class="accordion-button collapsed" type="button" data-mdb-toggle="collapse"
+                                            data-mdb-target="#basicAccordionCollapse<%=i%>" aria-expanded="false"
+                                            aria-controls="collapse<%=i%>">
+                                            <div style="display: flex;justify-content: space-between;width: 98%;">
+                                              <div><%=i+1%>) <%=projectDetails[i].projectname%></div>
+                                             <%if(sessionDetails.type=='manager') {%>
+                                              <a onclick="deleteproject('<%=projectDetails[i]._id%>')"><img src="/images/trash-solid.svg" width="20px" height="20px"></a>
+                                              <%}%>
+                                            </div>
+                                          </button>
+                                        </h2>
+                                        <div id="basicAccordionCollapse<%=i%>" class="accordion-collapse collapse"
+                                          aria-labelledby="heading<%=i%>" data-mdb-parent="#basicAccordion" style="">
+                                          <div class="accordion-body">
+                                              <table style="margin-top: 10px;" id="example2" class="table table-bordered table-hover"  id="DyanmicTable" name="DyanmicTable">
+                                                <thead>
+                                                  <tr>
+                                                    <th>Sno</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Role</th>
+                                                    <th>Contact Details</th>
+                                                    <%if(sessionDetails.type=='manager'){%>
+                                                      <th>Options</th>
+                                                    <%}%>
+                                                  </tr>
+                                                </thead>
+                                                <%for(let j=0;j<projectDetails[i]['employee'].length;j++) {%>
+                                                    <% for(let k=0; k<employeeDetails.length; k++){ %>
+                                                            <%if(projectDetails[i]['employee'][j]==employeeDetails[k]._id) {%>
+                                                                
+                                                            <tr>
+                                                              <td><%=j+1%></td>
+                                                              <td><img class="rounded-circle" src="<%=employeeDetails[k].profileimage%>" width="50px" height="50px">&nbsp;&nbsp;<%=employeeDetails[k].name%></td>
+                                                            <td><%=employeeDetails[k].role%></td>
+                                                            <td><%=employeeDetails[k].email%></td>
+                                                            <%if(sessionDetails.type=='manager'){%>
+                                                            <td><a href="/projectDetails/<%=projectDetails[i]._id%>/<%=employeeDetails[k]._id%>">Add Task</a></td>
+                                                            <%}%>
+                                                            </tr>
+                                                            <%}%>
+                            
+                                                            
+                                                            <!-- <td><a href="/edit/<%=employeeDetails[i]._id%>">edit</a><a href="/delete/<%=employeeDetails[i]._id%>">delete</a></td> -->
+                                                        
+                                                    <%}%>
+                                                   
+                                                <%}%>
+                                                <%if(sessionDetails.type=='manager'){%>
+                                                  <form action="/projectDetails/addemployee" id="employeeeform" method="post" >
+                                                    <input type="hidden" value="<%=projectDetails[i]._id%>" name="projectid">
+                                                    <div class="form-group" style="display: flex;">
+                                                      <select name="employeeid">
+                                                        <% for(let k=0; k<employeeDetails.length; k++){ %>
+                                                         
+                                                          <%if(!(projectDetails[i]['employee'].includes(String(employeeDetails[k]._id)))){%>
+                                                          <option  value="<%=employeeDetails[k]._id%>"><%=employeeDetails[k].name%></option>
+                                                          <%}%>
+                                                        <%}%>
+                                                      </select>
+                                                    <button class="btn btn-primary" style="margin-left: 10px;" type="submit">Add Employee</button>
+  
+                                                    </div>
+                                              </form>
+                                                <%}%>
+                                              </table>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    <!-- <tr> -->
+                                      
+                                      
+                                    <!-- </tr> -->
+                                     
+                                  <%}%>
+                                </div>
+                              </tr>
+                  <%}else{%>
+                     <h4 style="text-align: center;">No project is available</h4>
+                  <%}%>
+  
+  
+  
+  
+  
+          
+                </div>
+                <div class="card-footer">
+                  <!-- <button onclick="addemployee()">Add Employee</button> -->
+                </div>
+                
+              </div>
+            </div>
+          
+
+           
+          
+          </div>
+     
+        </div>
+       
+      </div>
+    
+    </section>
+  
+  </div>
+
+
+</div>
+
+
+
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true, "lengthChange": false, "autoWidth": false,
+      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
+</body>
+</html>

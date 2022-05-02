@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/profile.css">
+    <link
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.css"
+rel="stylesheet"
+/>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.11.0/mdb.min.js"
+></script>
+
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-storage.js"></script>
+<script>
+	// document.getElementById("phone").disabled;
+	var firebaseConfig = {
+		apiKey: "AIzaSyBkPLvjnUlYzjl8PmT3U1zD2vlZf5H-I-0",
+		authDomain: "darwinboxproject-5f126.firebaseapp.com",
+		projectId: "darwinboxproject-5f126",
+		storageBucket: "darwinboxproject-5f126.appspot.com",
+		messagingSenderId: "709134356880",
+		appId: "1:709134356880:web:a280dc6872f15cb3c8a315",
+		measurementId: "G-PLN53GE7KF"
+	};
+	firebase.initializeApp(firebaseConfig);
+  
+function uploadImage() {
+  document.getElementById('image').src = '/images/loader.gif';
+  const ref = firebase.storage().ref();
+  const file = document.querySelector("#photo").files[0];
+  const name = +new Date() + "-" + file.name;
+  const metadata = {
+	contentType: file.type
+  };
+  const task = ref.child(name).put(file, metadata);
+  task
+	.then(snapshot => snapshot.ref.getDownloadURL())
+	.then(url => {
+	  console.log(url);
+	  document.getElementById('imageUrl').value=url;
+	  document.querySelector("#image").src = url;
+	})
+	.catch(console.error);
+}
+// document.getElementById("")
+</script>
+
+
+</head>
+<body>
+    <%if(sessionDetails.type=='employee'){%>
+    <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/employeenavbar.ejs') %>
+    <%}else {%>
+    <%- include('/home/tulasi.b/Desktop/projectmanagement/views/partials/afterloginnavbar.ejs') %>
+
+    <%}%>
+
+    <div class="container" style="margin-top: 50px;">
+		<div class="main-body">
+			<form action="/profile/update" method="POST">
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="card">
+							<div class="card-body">
+								<div class="d-flex flex-column align-items-center text-center">
+									
+									<img src="<%=personDetails[0].profileimage%>" id="image" alt="Admin" class="rounded-circle p-1 bg-primary" width="130">
+									
+									<%if(sessionDetails.type=='employee'){%>
+    
+									<input type="hidden" name="profileimage" id="imageUrl"> 
+									<input  style="margin-left: 30px !important;" type="file" id="photo"><br>
+									
+									<button type="button" onclick="uploadImage()">Upload Image</button>
+									<%}%>
+									<div class="mt-3">
+										<h4><%=personDetails[0].name%></h4>
+										<p class="text-secondary mb-1"><%=personDetails[0].role%></p>
+										<p class="text-muted font-size-sm">Darwinbox</p>
+										
+									</div>
+								</div>
+								<hr class="my-4"> 
+								<ul class="list-group list-group-flush">
+									<%if(personProjectDetails.length==0){%>
+										<span class="text-secondary">No Projects</span>
+									<%}%>
+									<%for(let i=0;i<personProjectDetails.length; i++){%>
+									<li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+										<h6 class="mb-0">Project Name:&nbsp;&nbsp;<span class="text-secondary"><%=personProjectDetails[i].projectname%></span></h6>
+										
+									</li>
+									<%}%>
+									
+									
+								</ul> 
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-8">
+						<div class="card">
+							<div class="card-body">
+								<div class="row mb-3">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Full Name</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										<input disabled type="text" class="form-control" value="<%=personDetails[0].name%>">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Email</h6>
+									</div>
+									<div class="col-sm-9 text-secondary">
+										<input disabled type="text" class="form-control" value="<%=personDetails[0].email%>">
+									</div>
+								</div>
+								<div class="row mb-3">
+									<div class="col-sm-3">
+										<h6 class="mb-0">Phone</h6>
+									</div>
+									<%if(sessionDetails.type=='employee'){%>
+
+									<div class="col-sm-9 text-secondary">
+										<input id="phone" type="text" name="phone" class="form-control" value="<%=personDetails[0].phonenumber%>">
+									</div>
+									<%} else {%>
+										<div class="col-sm-9 text-secondary">
+											<input id="phone" disabled type="text" name="phone" class="form-control" value="<%=personDetails[0].phonenumber%>">
+										</div>
+									<%}%>
+								</div>
+								
+								
+								<div class="row">
+									<div class="col-sm-3"></div>
+									<%if(sessionDetails.type=='employee'){%>
+									<div class="col-sm-9 text-secondary">
+										<input type="submit" class="btn btn-primary px-4" value="Save Changes">
+									</div>
+									<%}%>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="d-flex align-items-center mb-3">Task Status</h5>
+										<%if(personTaskDetails.length==0){%>
+											<div style="text-align: center;">
+												<span  class="text-secondary">No Tasks are available</span>
+											</div>
+	
+										<%}%>
+										<%for(let i=0; i<personTaskDetails.length; i++){%>
+											<p>ProjectName: &nbsp;&nbsp;<%=personTaskDetails[i].projectname%></p>
+											<p>TaskName: &nbsp;&nbsp;<%=personTaskDetails[i].taskDetails.taskname%></p>
+											<div class="progress mb-3" style="height: 5px">
+												<%if(personTaskDetails[i].taskDetails.status=='completed'){%>
+												 <div class="progress-bar bg-primary" role="progressbar" style="width: 100%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+												<%} else if(personTaskDetails[i].taskDetails.status=='incomplete') {%>
+														<div class="progress-bar bg-danger" role="progressbar" style="width: 1%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+												<%} else {%>
+														<div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+	
+												<%}%>
+	
+											</div>
+										<%}%>
+										
+										
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+    
+</body>
+</html>

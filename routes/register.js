@@ -60,8 +60,9 @@ router.post('/registervalidate', async (req,res)=>{
                         
                         tls: { rejectUnauthorized: false },
                         auth: {
-                            user: 'testingnodejs1345@gmail.com',
-                            pass: 'Testing@123'
+                            user: 't19201911@gmail.com',
+ 
+                            pass: 'testemail123'
                             }
                         });
                        
